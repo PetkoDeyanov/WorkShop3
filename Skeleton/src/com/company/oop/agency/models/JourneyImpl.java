@@ -90,11 +90,11 @@ public class JourneyImpl implements Journey {
     public String getAsString() {
        String print = "Journey ----\n" +
                "Start location: %s\n"+
-               "Destination: %s"+
-               "Distance: %d" +
-                "Vehicle type: %s" +
-                "Travel costs: %.2f";
-    return String.format(print, getStartLocation(), getDestination(), getDistance(), getVehicle().toString(), calculateTravelCosts());
+               "Destination: %s\n"+
+               "Distance: %d\n" +
+                "Vehicle type: %s\n" +
+                "Travel costs: %.2f\n";
+    return String.format(print, getStartLocation(), getDestination(), getDistance(), getVehicle().getType(), calculateTravelCosts());
     }
     /*
     Journey ----

@@ -21,7 +21,7 @@ public class AirplaneImpl extends VehicleImpl implements Airplane {
     @Override
     public String getAsString() {
         String print =  super.getAsString();
-        print += String.format("Has free food: %b", hasFreeFood());
+        print += String.format("Has free food: %b\n", hasFreeFood());
         return print;
     }
 }

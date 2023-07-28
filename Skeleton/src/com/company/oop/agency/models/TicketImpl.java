@@ -10,7 +10,7 @@ public class TicketImpl implements Ticket {
     private int Id;
     private Journey journey;
     private double administrativeCost;
-    private double cost;
+
 
     public TicketImpl(int id, Journey journey, double costs) {
         setId(id);
@@ -27,9 +27,9 @@ public class TicketImpl implements Ticket {
 
     private void setCost(double cost){
         if(cost < 0)
-            throw new InvalidUserInputException("Cost should not be negative!");
+            throw new InvalidUserInputException(String.format("Value of '%s' must be a positive number. Actual value: %.2f.", "costs", cost));
         this.administrativeCost = cost;
-        this.cost = this.journey.calculateTravelCosts() + cost;
+
     }
 
 
@@ -61,6 +61,6 @@ public class TicketImpl implements Ticket {
                 Destination: %s
                 Price: %.2f
                 """;
-        return String.format(result, this.journey.getDestination(), this.cost);
+        return String.format(result, this.journey.getDestination(), calculatePrice());
     }
 }

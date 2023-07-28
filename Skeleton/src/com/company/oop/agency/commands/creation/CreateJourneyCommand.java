@@ -1,5 +1,6 @@
 package com.company.oop.agency.commands.creation;
 
+import com.company.oop.agency.commands.CommandsConstants;
 import com.company.oop.agency.commands.contracts.Command;
 import com.company.oop.agency.core.contracts.AgencyRepository;
 import com.company.oop.agency.models.contracts.Journey;
@@ -12,7 +13,7 @@ import java.util.List;
 public class CreateJourneyCommand implements Command {
 
     public static final int EXPECTED_NUMBER_OF_ARGUMENTS = 4;
-    private static final String JOURNEY_CREATED_MESSAGE = "Journey with ID %d was created.";
+
 
     private final AgencyRepository repository;
 
@@ -30,10 +31,11 @@ public class CreateJourneyCommand implements Command {
 
         parseParameters(parameters);
 
-        Vehicle vehicle = repository.findVehicleById(vehicleId);
+        //Vehicle vehicle = repository.findElementById(repository.getVehicles(),vehicleId);
+        Vehicle vehicle = repository.findElementById(repository.getVehicles(), vehicleId);
         Journey journey = repository.createJourney(startLocation, destination, distance, vehicle);
 
-        return String.format(JOURNEY_CREATED_MESSAGE, journey.getId());
+        return String.format(CommandsConstants.JOURNEY_CREATED_MESSAGE, journey.getId());
     }
 
     private void parseParameters(List<String> parameters) {

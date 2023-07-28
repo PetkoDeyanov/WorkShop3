@@ -3,6 +3,7 @@ package com.company.oop.agency.core;
 import com.company.oop.agency.exceptions.ElementNotFoundException;
 import com.company.oop.agency.models.JourneyImpl;
 import com.company.oop.agency.models.TicketImpl;
+import com.company.oop.agency.models.contracts.Identifiable;
 import com.company.oop.agency.models.contracts.Journey;
 import com.company.oop.agency.models.contracts.Ticket;
 import com.company.oop.agency.models.vehicles.AirplaneImpl;
@@ -45,37 +46,24 @@ public class AgencyRepositoryImpl implements AgencyRepository {
         return new ArrayList<>(tickets);
     }
 
+    //for tests
     @Override
     public Vehicle findVehicleById(int id) {
-        for (Vehicle vehicle : getVehicles()) {
-            if (vehicle.getId() == id) {
-                return vehicle;
-            }
-        }
-
-        throw new ElementNotFoundException(String.format(NO_ID_FOUND, id));
+        return findElementById(getVehicles(), id);
     }
 
     @Override
     public Journey findJourneyById(int id) {
-        for (Journey journey : getJourneys()) {
-            if (journey.getId() == id)
-                return journey;
-        }
-
-        throw new ElementNotFoundException(String.format(NO_ID_FOUND, id));
+        return findElementById(getJourneys(), id);
     }
 
     @Override
     public Ticket findTicketById(int id) {
-        for (Ticket ticket : getTickets()) {
-            if (ticket.getId() == id)
-                return ticket;
-        }
+        return findElementById(getTickets(), id);
 
-        throw new ElementNotFoundException(String.format(NO_ID_FOUND, id));
     }
 
+    //For tests
     @Override
     public Airplane createAirplane(int passengerCapacity, double pricePerKilometer, boolean hasFreeFood) {
         Airplane airplane = new AirplaneImpl(++nextId, passengerCapacity, pricePerKilometer, hasFreeFood);
@@ -109,8 +97,16 @@ public class AgencyRepositoryImpl implements AgencyRepository {
         Ticket ticket = new TicketImpl(++nextId, journey, costs);
         this.tickets.add(ticket);
         return ticket;
+    }
 
-        // Advanced task: Implement the following generic method that looks for an item by id.
-        // private <T extends {{?}}> T findElementById(List<T> elements, int id) { }
+    // Advanced task: Implement the following generic method that looks for an item by id.
+    public <T extends Identifiable> T findElementById(List<T> elements, int id) {
+        for (T element : elements) {
+            if (element.getId() == id) {
+                return element;
+            }
+        }
+
+        throw new ElementNotFoundException(String.format(NO_ID_FOUND, id));
     }
 }

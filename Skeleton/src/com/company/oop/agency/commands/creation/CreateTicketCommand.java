@@ -32,12 +32,13 @@ public class CreateTicketCommand implements Command {
 
         Ticket createdTicket = agencyRepository.createTicket(journey, administrativeCost);
 
-        return String.format(CommandsConstants.VEHICLE_CREATED_MESSAGE, createdTicket.getId());
+        return String.format(CommandsConstants.TICKET_CREATED_MESSAGE, createdTicket.getId());
     }
 
     private void parseParameters(List<String> parameters) {
         this.journeyId = ParsingHelpers.tryParseInteger(parameters.get(0), "journey id");
-        this.journey = agencyRepository.findJourneyById(journeyId);
-        this.administrativeCost = ParsingHelpers.tryParseDouble(parameters.get(1), "administrative cost");
+
+        this.administrativeCost = ParsingHelpers.tryParseDouble(parameters.get(1), "cost");
+        this.journey = agencyRepository.findElementById(agencyRepository.getJourneys(), journeyId);
     }
 }
